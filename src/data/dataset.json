@@ -102,7 +102,14 @@
       "venta2024": 517023,
       "real2025": 746519,
       "presupuesto2026": 812418.875,
-      "real2026": 576399
+      "real2026": 576399,
+      "ytd": {
+        "venta2024": 303922,
+        "real2025": 439456,
+        "presupuesto2026": 494388,
+        "real2026": 576399,
+        "meses": 8
+      }
     }
   },
   "cierreJulio": [
@@ -325,7 +332,7 @@
     {
       "item": "CUADRANTE DE CERDO",
       "cantidad": 205.5989,
-      "variacion": 19.5
+      "variacion": 186.0989
     },
     {
       "item": "COSTILLA CERDO ESPECIAL",
@@ -340,7 +347,7 @@
     {
       "item": "RECORTE DE PAPADA",
       "cantidad": 101.425,
-      "variacion": 97.105
+      "variacion": 4.32
     },
     {
       "item": "CARNE MOLIDA ESPECIAL",
@@ -380,7 +387,7 @@
     {
       "item": "CHULETON DE BRAZO",
       "cantidad": 1.0,
-      "variacion": 4.255
+      "variacion": -3.255
     }
   ],
   "precios": [

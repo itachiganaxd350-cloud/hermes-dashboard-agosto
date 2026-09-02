@@ -11,6 +11,13 @@ export interface KilosData {
     real2025: number;
     presupuesto2026: number;
     real2026: number;
+    ytd: {
+      venta2024: number;
+      real2025: number;
+      presupuesto2026: number;
+      real2026: number;
+      meses: number;
+    };
   };
 }
 
