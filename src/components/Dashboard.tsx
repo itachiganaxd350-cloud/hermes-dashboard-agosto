@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { motion } from "motion/react";
-import { Sun, Moon, BarChart3, Info } from "lucide-react";
+import type { ReactNode } from "react";
+import { Sun, Moon, Boxes, TrendingUp, Handshake, Layers, BadgePercent, ClipboardList, Tags, Trophy } from "lucide-react";
 import { KpiCard } from "./KpiCard";
 import { SimpleAreaLine } from "./SimpleAreaLine";
 import { GroupedBar } from "./GroupedBar";
@@ -19,107 +18,188 @@ interface Props {
   toggleTheme: () => void;
 }
 
+function ChartCard({
+  icon,
+  title,
+  subtitle,
+  className = "",
+  delay = 0,
+  children,
+}: {
+  icon: ReactNode;
+  title: string;
+  subtitle?: string;
+  className?: string;
+  delay?: number;
+  children: ReactNode;
+}) {
+  return (
+    <section
+      className={`chart-card p-5 animate-in ${className}`}
+      style={{ animationDelay: `${delay}s` }}
+    >
+      <header className="mb-4 flex items-start justify-between gap-3">
+        <div className="flex items-center gap-2.5">
+          <span
+            className="flex h-7 w-7 items-center justify-center rounded-lg"
+            style={{ background: "hsl(var(--color-brand) / 0.12)", color: "hsl(var(--color-brand))" }}
+          >
+            {icon}
+          </span>
+          <div>
+            <h3 className="text-sm font-bold tracking-tight">{title}</h3>
+            {subtitle && <p className="text-xs text-[hsl(var(--color-muted))]">{subtitle}</p>}
+          </div>
+        </div>
+        <span className="dot" />
+      </header>
+      {children}
+    </section>
+  );
+}
+
+const signature = String.raw`
+ ╔══════════════════════════════════════════════╗
+ ║    J U L I A N   A N D R E S   P A R D O     ║
+ ╚══════════════════════════════════════════════╝`;
+
 export function Dashboard({ data, dark, toggleTheme }: Props) {
-  const [activeChart, setActiveChart] = useState<string | null>(null);
   const chartData = buildChartData(data);
 
-  const chartTabs = [
-    { key: "kilos", label: "Comportamiento Kilos" },
-    { key: "growth", label: "Crecimiento" },
-    { key: "channels", label: "Canales" },
-    { key: "channelsYear", label: "Comparativo Anual" },
-    { key: "participation", label: "Participación" },
-    { key: "cierre", label: "Cierre Agosto" },
-    { key: "chequeo", label: "Chequeo Precios" },
-  ];
-
   return (
-    <div className="min-h-screen p-4 md:p-8 max-w-[1400px] mx-auto flex flex-col gap-8">
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between"
-      >
-        <div className="flex items-center gap-3">
-          <BarChart3 size={28} className="text-[hsl(var(--color-brand))]" />
-          <h1 className="text-xl md:text-2xl font-bold tracking-tight">JULIAN AGOSTO</h1>
+    <div className="mx-auto flex min-h-screen max-w-[1440px] flex-col gap-6 p-4 md:p-8">
+      {/* ============ HERO ============ */}
+      <header className="hero animate-in p-6 md:p-7">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/15 ring-1 ring-white/25 backdrop-blur-sm">
+              <Boxes size={24} className="text-white" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2.5">
+                <h1 className="text-xl font-extrabold tracking-tight text-white md:text-2xl">
+                  JULIAN AGOSTO
+                </h1>
+                <span className="hidden rounded-md bg-white/15 px-1.5 py-0.5 font-mono text-[10px] font-semibold tracking-widest text-white/90 ring-1 ring-white/20 sm:inline">
+                  2026
+                </span>
+              </div>
+              <p className="mt-0.5 text-[13px] text-white/75">
+                Dashboard mensual · Comportamiento comercial · Enero – Agosto 2026
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="badge-live">
+              <span className="pulse-dot" />
+              DATOS AL DÍA
+            </span>
+            <button
+              onClick={toggleTheme}
+              aria-label="Cambiar tema"
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-white/15 text-white ring-1 ring-white/25 backdrop-blur-sm transition hover:bg-white/25"
+            >
+              {dark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-xs text-[hsl(var(--color-muted))] hidden md:block">
-            Dashboard mensual · Enero–Agosto 2026
-          </span>
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg bg-[hsl(var(--color-card))] border border-[hsl(var(--color-border))] hover:opacity-80 transition-opacity cursor-pointer"
-            aria-label="Toggle theme"
-          >
-            {dark ? <Sun size={16} /> : <Moon size={16} />}
-          </button>
-        </div>
-      </motion.header>
+      </header>
 
-      {/* KPIs */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      {/* ============ KPIs ============ */}
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         {chartData.kpis.map((kpi, i) => (
-          <KpiCard key={kpi.label} kpi={kpi} delay={i * 0.05} />
+          <KpiCard key={kpi.label} kpi={kpi} delay={0.05 + i * 0.06} />
         ))}
       </div>
 
-      {/* Chart tabs */}
-      <div className="flex flex-wrap gap-2">
-        {chartTabs.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveChart(activeChart === tab.key ? null : tab.key)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
-              activeChart === tab.key
-                ? "bg-[hsl(var(--color-brand))] text-white"
-                : "bg-[hsl(var(--color-card))] border border-[hsl(var(--color-border))] hover:bg-[hsl(var(--color-surface))]"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Active chart */}
-      {activeChart && (
-        <motion.section
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
-          className="bg-[hsl(var(--color-card))] rounded-xl border border-[hsl(var(--color-border))] p-5"
+      {/* ============ CHARTS ============ */}
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+        <ChartCard
+          icon={<Layers size={15} />}
+          title="Comportamiento Kilos"
+          subtitle="Real 2026 vs Presupuesto (kg)"
+          className="xl:col-span-2"
+          delay={0.15}
         >
-          <h3 className="text-sm font-semibold text-[hsl(var(--color-muted))] mb-3 uppercase tracking-wide">
-            {chartTabs.find((t) => t.key === activeChart)?.label}
-          </h3>
-          {activeChart === "kilos" && <SimpleAreaLine data={chartData.series} />}
-          {activeChart === "growth" && <GroupedBar data={chartData.growth} />}
-          {activeChart === "channels" && <ChannelsLines data={chartData.channels} />}
-          {activeChart === "channelsYear" && <ChannelsCompare data={chartData.channelYears} />}
-          {activeChart === "participation" && <ParticipationChart data={chartData.participation} />}
-          {activeChart === "cierre" && (
-            <CierreMesTable julio={data.cierreJulio} agosto={data.cierreAgosto} />
-          )}
-          {activeChart === "chequeo" && (
+          <SimpleAreaLine data={chartData.series} />
+        </ChartCard>
+
+        <ChartCard
+          icon={<TrendingUp size={15} />}
+          title="Crecimiento vs 2025"
+          subtitle="% variación mensual (mismo mes año anterior)"
+          delay={0.2}
+        >
+          <GroupedBar data={chartData.growth} />
+        </ChartCard>
+
+        <ChartCard
+          icon={<BadgePercent size={15} />}
+          title="Participación Comercializadora"
+          subtitle="% sobre ventas Terrazas, Ene–Ago"
+          delay={0.25}
+        >
+          <ParticipationChart data={chartData.participation} />
+        </ChartCard>
+
+        <ChartCard
+          icon={<Handshake size={15} />}
+          title="Canales — Evolución Mensual"
+          subtitle="Unidades reportadas por canal · 2025 vs 2026"
+          delay={0.3}
+        >
+          <ChannelsLines data={chartData.channels} />
+        </ChartCard>
+
+        <ChartCard
+          icon={<ClipboardList size={15} />}
+          title="Canales — Comparativo Anual"
+          subtitle="Acumulado por año (2026: Ene–Ago)"
+          delay={0.35}
+        >
+          <ChannelsCompare data={chartData.channelYears} />
+        </ChartCard>
+
+        <ChartCard
+          icon={<Tags size={15} />}
+          title="Chequeo de Precios"
+          subtitle="Cervalles vs T.A. vs Precio especial ($/kg)"
+          className="xl:col-span-2"
+          delay={0.4}
+        >
+          <div className="mx-auto max-w-3xl">
             <ChequeoTable precios={data.precios} />
-          )}
-        </motion.section>
-      )}
+          </div>
+        </ChartCard>
 
-      {/* Product ranking (always visible) */}
-      <section className="bg-[hsl(var(--color-card))] rounded-xl border border-[hsl(var(--color-border))] p-5">
-        <h3 className="text-sm font-semibold text-[hsl(var(--color-muted))] mb-3 uppercase tracking-wide flex items-center gap-2">
-          <Info size={14} />
-          Ranking productos · Agosto 2026 (30 productos)
-        </h3>
-        <ProductRank items={data.cierreAgosto} />
-      </section>
+        <ChartCard
+          icon={<ClipboardList size={15} />}
+          title="Cierre de Mes — Julio vs Agosto"
+          subtitle="Cantidades en kg y variación por producto"
+          className="xl:col-span-2"
+          delay={0.45}
+        >
+          <CierreMesTable julio={data.cierreJulio} agosto={data.cierreAgosto} />
+        </ChartCard>
 
-      {/* Footer */}
-      <footer className="text-center text-xs text-[hsl(var(--color-muted))] py-4 border-t border-[hsl(var(--color-border))]">
-        Creado por Julián Andrés Pardo · Dashboard mensual
+        <ChartCard
+          icon={<Trophy size={15} />}
+          title="Ranking de Productos"
+          subtitle={`Agosto 2026 · ${data.cierreAgosto.length} productos por kilos vendidos`}
+          delay={0.5}
+        >
+          <ProductRank items={data.cierreAgosto} />
+        </ChartCard>
+      </div>
+
+      {/* ============ FOOTER ============ */}
+      <footer className="mt-2 flex flex-col items-center gap-4 border-t border-[hsl(var(--color-border))] pt-6 pb-2 text-center">
+        <pre className="ascii-signature text-[10px] md:text-[11px]">{signature}</pre>
+        <p className="max-w-xl text-xs leading-relaxed text-[hsl(var(--color-muted))]">
+          Cifras en kilogramos (kg) · Fuente oficial:{" "}
+          <span className="font-mono">JULIAN AGOSTO.xlsx</span> · Comportamiento Kilos, Cierre de Mes,
+          Chequeo de Precios e Informe de Canales · Dashboard mensual
+        </p>
       </footer>
     </div>
   );

@@ -101,6 +101,7 @@ export function buildChartData(d: Dataset): ChartData {
       detail: `Ene–Ago · ${y.meses} meses`,
       icon: "scale",
       positive: true,
+      accent: "#2563eb",
     },
     {
       label: "Presupuesto YTD",
@@ -108,6 +109,7 @@ export function buildChartData(d: Dataset): ChartData {
       detail: `${fmtPct((y.real2026 / y.presupuesto2026) * 100)} cumplimiento Ene–Ago`,
       icon: "target",
       positive: y.real2026 >= y.presupuesto2026,
+      accent: "#8b5cf6",
     },
     {
       label: "Crec. vs 2025",
@@ -115,6 +117,7 @@ export function buildChartData(d: Dataset): ChartData {
       detail: `${fmtFull(y.real2026)} vs ${fmtFull(y.real2025)} Ene–Ago`,
       icon: "trending",
       positive: y.real2026 > y.real2025,
+      accent: "#10b981",
     },
     {
       label: "Crec. vs 2024",
@@ -122,6 +125,7 @@ export function buildChartData(d: Dataset): ChartData {
       detail: `${fmtFull(y.real2026)} vs ${fmtFull(y.venta2024)} Ene–Ago`,
       icon: "trending",
       positive: y.real2026 > y.venta2024,
+      accent: "#06b6d4",
     },
     {
       label: "Canales 2026",
@@ -129,6 +133,7 @@ export function buildChartData(d: Dataset): ChartData {
       detail: `Terrazas ${fmtFull(ch26.terrazas)} + Comerc. ${fmtFull(ch26.comercializadora)} (Ene–Ago)`,
       icon: "store",
       positive: true,
+      accent: "#f59e0b",
     },
     {
       label: "Agosto 2026",
@@ -136,6 +141,7 @@ export function buildChartData(d: Dataset): ChartData {
       detail: `${fmtPct(k.cumplimientoPpto2026[idxAgo] ?? 0)} ppto`,
       icon: "package",
       positive: (k.real2026[idxAgo] ?? 0) >= (k.presupuesto2026[idxAgo] ?? 0),
+      accent: "#f43f5e",
     },
   ];
 
