@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+:root {
+  --color-brand: 210 60% 40%;
+  --color-surface: 0 0% 98%;
+  --color-card: 0 0% 100%;
+  --color-border: 220 13% 91%;
+  --color-text: 224 71% 4%;
+  --color-muted: 220 9% 46%;
+  --color-positive: 152 58% 39%;
+  --color-negative: 0 72% 51%;
+  --color-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+[data-theme="dark"] {
+  --color-surface: 222 47% 8%;
+  --color-card: 222 47% 11%;
+  --color-border: 216 34% 20%;
+  --color-text: 210 40% 92%;
+  --color-muted: 215 20% 55%;
+  --color-positive: 152 58% 49%;
+  --color-negative: 0 72% 61%;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: hsl(var(--color-surface));
+  color: hsl(var(--color-text));
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.woff2") format("woff2");
+}
+
+.kpi-glow { box-shadow: 0 0 0 1px hsl(var(--color-border)), 0 2px 8px rgba(0,0,0,0.04); }
+.kpi-glow:hover { box-shadow: 0 0 0 1px hsl(var(--color-brand) / 0.3), 0 4px 16px rgba(0,0,0,0.08); }
+
+@keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-in { animation: fade-in 0.4s ease-out both; }
+
+.recharts-cartesian-grid line { stroke: hsl(var(--color-border)) !important; opacity: 0.5; }
+.recharts-tooltip-wrapper { outline: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
